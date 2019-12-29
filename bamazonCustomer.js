@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require('inquirer');
+var Table = require('cli-table');
 
 // SQL database connection 
 var connection = mysql.createConnection({
@@ -13,19 +14,30 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("Connected as Id " + connection.threadId);
-    // connection.end();
+    // console.log("Connected as Id " + connection.threadId);
     queryProducts();
 });
 
 function queryProducts() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
+
+        // 3rd party NPM package to make output look nicer
+        var prodTable = new Table({
+            head: ['Id', 'Product', 'Department', 'Price'],
+            colWidths: [5, 30, 20, 10]
+        });
+
         for (var i = 0; i < res.length; i++) {
-            console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].dept_name + " | " + res[i].price + " | " + res[i].stock_qty);
+            prodTable.push(
+                [res[i].item_id,
+                res[i].product_name,
+                res[i].dept_name,
+                '$' + res[i].price]);
         }
+        console.log(prodTable.toString());
         console.log("-----------------------------------");
-        //We want to execute our function
+        // We want to execute our function
         userItem();
     });
 }
