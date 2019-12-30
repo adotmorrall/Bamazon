@@ -62,25 +62,37 @@ function userItem() {
 
     ]).then(function (userData) {
         if (userData) {
-            console.log(userData.item);
-            console.log(userData.quantity);
             connection.query('SELECT * FROM products WHERE item_id=' + userData.item, function (err, res){
                 if (err) throw err;
                 // 'Error handling' if user types in Id that doesn't exist
                 if (res.length === 0) {
                     console.log(' ');
-                    console.log(`Sorry, we coudn't find that item. Please make sure that you type in an item ID between 1 - 10.`);
-                } else {
-                    // Now, I must log user response, update stock qty and give user the price
+                    console.log(`Sorry, we couldn't find that item. Please make sure that you type in an Id between 1 - 10.`);
+                }
                     var item = res[0];
                     // If user's quantity request is less than or equal to the amount available, proceed to purchase & give price
                     if (userData.quantity <= item.stock_qty) {
                         var newStockQty = item.stock_qty - userData.quantity;
+                        var userTotal = userData.quantity * item.price;
                         connection.query('UPDATE products SET stock_qty=' + newStockQty + ' WHERE item_id=' + userData.item, function(err, res) {
                             if (err) throw err;
-                            console.log(`Purchased item`);
+                            // console.log(item);
+                            console.log('Order details');
+                            console.log('_____________________________________');
+                            console.log(' ');
+                            console.log('Item: ' + item.product_name);
+                            console.log('Quantity: ' + userData.quantity);
+                            console.log('Subtotal: $' + item.price);
+                            console.log('Order Total: $' + userTotal);
+                            console.log(' ');
+                            console.log('Thank you for your purchase, please shop again!');
+                            connection.end();
                         }
-                    )}  
+                    )} else {
+                        // If user's quantity request is greater than the amount available, log message and call the userItem function to pick lesser amount or a diff product
+                        console.log(`Sorry, we only have ` + item.stock_qty + ' available for the item you selected. Please select another amount, or another product if none are left. Thanks!');
+                        console.log('');
+                        userItem();
                 }
             })
         }
