@@ -26,17 +26,19 @@ function queryProducts() {
         if (err) throw err;
 
         // 3rd party NPM package to make output look nicer
+        // Remove Qty once app is complete
         var prodTable = new Table({
-            head: ['Id', 'Product', 'Department', 'Price'],
-            colWidths: [5, 30, 20, 10]
+            head: ['Id', 'Product', 'Department', 'Price', 'Qty'],
+            colWidths: [5, 30, 20, 10, 5]
         });
 
+        // Remove qty once app is complete
         for (var i = 0; i < res.length; i++) {
             prodTable.push(
                 [res[i].item_id,
                 res[i].product_name,
                 res[i].dept_name,
-                '$' + res[i].price]);
+                '$' + res[i].price, res[i].stock_qty]);
         }
         console.log(prodTable.toString());
         console.log(" ");
@@ -68,6 +70,17 @@ function userItem() {
                 if (res.length === 0) {
                     console.log(' ');
                     console.log(`Sorry, we coudn't find that item. Please make sure that you type in an item ID between 1 - 10.`);
+                } else {
+                    // Now, I must log user response, update stock qty and give user the price
+                    var item = res[0];
+                    // If user's quantity request is less than or equal to the amount available, proceed to purchase & give price
+                    if (userData.quantity <= item.stock_qty) {
+                        var newStockQty = item.stock_qty - userData.quantity;
+                        connection.query('UPDATE products SET stock_qty=' + newStockQty + ' WHERE item_id=' + userData.item, function(err, res) {
+                            if (err) throw err;
+                            console.log(`Purchased item`);
+                        }
+                    )}  
                 }
             })
         }
