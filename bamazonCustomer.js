@@ -15,6 +15,9 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     // console.log("Connected as Id " + connection.threadId);
+    console.log(' ');
+    console.log('Bamazon: Online shopping for electronics, apparel and much more!');
+    console.log(' ');
     queryProducts();
 });
 
@@ -36,7 +39,7 @@ function queryProducts() {
                 '$' + res[i].price]);
         }
         console.log(prodTable.toString());
-        console.log("-----------------------------------");
+        console.log(" ");
         // We want to execute our function
         userItem();
     });
@@ -46,7 +49,7 @@ function userItem() {
     inquirer.prompt([
         {
             type: 'input',
-            message: `Please type in the ID of the number you'd like to purchase`,
+            message: `Please type in the ID of the number you'd like to purchase:`,
             name: 'item'
         },
         {
@@ -59,6 +62,14 @@ function userItem() {
         if (userData) {
             console.log(userData.item);
             console.log(userData.quantity);
+            connection.query('SELECT * FROM products WHERE item_id=' + userData.item, function (err, res){
+                if (err) throw err;
+                // 'Error handling' if user types in Id that doesn't exist
+                if (res.length === 0) {
+                    console.log(' ');
+                    console.log(`Sorry, we coudn't find that item. Please make sure that you type in an item ID between 1 - 10.`);
+                }
+            })
         }
     });
 }
