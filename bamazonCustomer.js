@@ -26,19 +26,17 @@ function queryProducts() {
         if (err) throw err;
 
         // 3rd party NPM package to make output look nicer
-        // Remove Qty once app is complete
         var prodTable = new Table({
-            head: ['Id', 'Product', 'Department', 'Price', 'Qty'],
-            colWidths: [5, 30, 20, 10, 5]
+            head: ['Id', 'Product', 'Department', 'Price'],
+            colWidths: [5, 30, 20, 10]
         });
 
-        // Remove qty once app is complete
         for (var i = 0; i < res.length; i++) {
             prodTable.push(
                 [res[i].item_id,
                 res[i].product_name,
                 res[i].dept_name,
-                '$' + res[i].price, res[i].stock_qty]);
+                '$' + res[i].price]);
         }
         console.log(prodTable.toString());
         console.log(" ");
