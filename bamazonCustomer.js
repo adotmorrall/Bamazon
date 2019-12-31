@@ -79,6 +79,7 @@ function userItem() {
                     connection.query('UPDATE products SET stock_qty=' + newStockQty + ' WHERE item_id=' + userData.item, function (err, res) {
                         if (err) throw err;
                         // console.log(item);
+                        console.log(' ');
                         console.log('Order details');
                         console.log('_____________________________________');
                         console.log(' ');

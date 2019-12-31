@@ -2,7 +2,7 @@
 Use Bamazon to purchase your favorite items!
 
 ## Before You Begin
-Bamazon is a command line interface application. To retrieve the data that will power this app, you'll need to send requests using the following node packages and API's:
+Bamazon is a command-line interface application. To retrieve the data that will power this app, you'll need to send requests using the following node packages and API's:
 
 * NPM Packages: [Inquirer](https://www.npmjs.com/package/inquirer), [MySQL](https://www.npmjs.com/package/mysql), [CLI-Table](https://www.npmjs.com/package/cli-table)
 
@@ -40,9 +40,9 @@ You should now see a table that displays the following:
 - Departments
 - Price
 
-You'll be prompted to type in the **Id** to select the item you'd like the purchase. Next, you type in amount you'd like to buy.
+You're prompted to type in the **Id** to select the item you'd like the purchase. Next, you type in the amount you'd like to buy.
 
-Notice in the demo that if the item is not in stock, you'll be prompted to re-do your item. If your item is in stock, your order will be processed.
+Notice in the demo that if you try to buy more items than what's in stock, you're alerted to select a lower quantity or choose another product. Also, if you mistype your Id, you can start over. Lastly, if your item is in stock, your order will be processed.
 
 **Demo**
 
