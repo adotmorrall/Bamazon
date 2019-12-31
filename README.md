@@ -46,7 +46,7 @@ Notice in the demo that if you try to buy more items than what's in stock, you'r
 
 **Demo**
 
-![bamazon-launch-app]()
+![bamazon-launch-app](assets/bamazon.gif)
 
 ### Technologies
 
